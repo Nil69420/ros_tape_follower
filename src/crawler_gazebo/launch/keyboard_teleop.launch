@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="gazebo_ros" name="keyboard_teleop_node"  type="keyboard_teleop_node" output="screen"/>
+</launch>

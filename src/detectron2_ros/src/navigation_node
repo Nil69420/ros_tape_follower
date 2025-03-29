@@ -1,0 +1,94 @@
+#!/usr/bin/env python
+
+import rospy
+from detectron2ros.msg import Result
+from geometry_msgs.msg import Twist, PoseStamped, PoseWithCovarianceStamped
+import tf
+import math
+
+class NavigationNode(object):
+    def __init__(self):
+        self._result_sub = rospy.Subscriber('/detectron2_ros/result', Result, self._result_callback)
+        self._pose_sub = rospy.Subscriber('/robot_pose_ekf/odom_combined', PoseWithCovarianceStamped, self._pose_callback)
+        self._vel_pub = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
+        self._target_track_class_id = 0  
+        self._searching = False
+        self._search_direction = 1  # 1 for clockwise, -1 for counterclockwise
+        self._kp = 0.1  # Proportional control gain
+        self._robot_pose = None
+
+    def _result_callback(self, result_msg):
+        if self._target_track_class_id in result_msg.class_ids:
+            # Track is detected, adjust robot's velocity to turn
+            twist_cmd = Twist()
+            twist_cmd.linear.x = 5.0  # Set linear velocity for forward motion
+            #twist_cmd.angular.z = 0.5 * self._search_direction  # Set angular velocity for turning
+            self._searching = False  # Reset search mode
+            self._vel_pub.publish(twist_cmd)
+        elif self._robot_pose is not None and len(result_msg.boxes) > 0:
+            # No track detected, perform navigation using the closest track with proportional control
+            if not self._searching:
+                rospy.loginfo("Track not detected. Initiating navigation behavior.")
+                self._searching = True
+
+            closest_track_idx = self._find_closest_track(result_msg)
+            closest_track = result_msg.boxes[closest_track_idx]
+            
+            twist_cmd = Twist()
+            twist_cmd.linear.x = 0.5  # Set linear velocity for forward motion
+
+            # Implement proportional control based on the position of the closest track
+            track_center = result_msg.width / 2.0
+            track_position = closest_track.x_offset + closest_track.width / 2.0
+            error = track_position - track_center
+            #twist_cmd.angular.z = self._kp * error * self._search_direction
+
+            self._vel_pub.publish(twist_cmd)
+        else:
+            # No track detected, perform search behavior with proportional control
+            if not self._searching:
+                rospy.loginfo("Track not detected. Initiating search behavior.")
+                self._searching = True
+
+            twist_cmd = Twist()
+            twist_cmd.linear.x = 0.0  # Stop linear motion during search
+
+            # Update search direction in a systematic pattern
+            twist_cmd.angular.z = 5.0 * self._search_direction
+
+            self._vel_pub.publish(twist_cmd)
+
+    def _pose_callback(self, pose_msg):
+        self._robot_pose = pose_msg
+
+    def _update_search_direction(self):
+        # Update search direction in a systematic pattern
+        self._search_direction *= -1
+
+    def _find_closest_track(self, result_msg):
+        # Find the index of the closest track
+        track_center = result_msg.width / 2.0
+        closest_distance = float('inf')
+        closest_track_idx = 0
+
+        for i, track in enumerate(result_msg.boxes):
+            track_position = track.x_offset + track.width / 2.0
+            distance = abs(track_position - track_center)
+
+            if distance < closest_distance:
+                closest_distance = distance
+                closest_track_idx = i
+
+        return closest_track_idx
+
+def main():
+    rospy.init_node('navigation_node')
+    nav_node = NavigationNode()
+
+    # Set up a timer to update the search direction periodically
+    rospy.Timer(rospy.Duration(10), nav_node._update_search_direction)
+
+    rospy.spin()
+
+if __name__ == '__main__':
+    main()

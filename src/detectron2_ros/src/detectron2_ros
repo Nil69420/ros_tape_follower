@@ -1,0 +1,169 @@
+#!/usr/bin/env python
+import sys
+import threading
+import os
+
+import cv2 as cv
+import numpy as np
+import rospy
+import rospkg
+from detectron2.config import get_cfg
+from detectron2.data import MetadataCatalog
+from detectron2.data.datasets.register_coco import register_coco_instances
+from cv_bridge import CvBridge, CvBridgeError
+# import some common detectron2 utilities
+from detectron2.engine import DefaultPredictor
+from detectron2.utils.logger import setup_logger
+from detectron2.utils.visualizer import Visualizer
+from detectron2ros.msg import Result
+from sensor_msgs.msg import Image, RegionOfInterest
+import json
+
+
+class Detectron2node(object):
+    def __init__(self):
+        setup_logger()
+        self._register_custom_datasets(datasets_dir=rospy.get_param("~custom_datasets_dir"))
+        self._bridge = CvBridge()
+        self._last_msg = None
+        self._msg_lock = threading.Lock()
+
+        self._publish_rate = rospy.get_param('~publish_rate', 100)
+
+        self.cfg = get_cfg()
+        self.cfg.merge_from_file(rospy.get_param('~model'))
+        train_dataset = rospy.get_param("~train_dataset")
+        test_dataset = rospy.get_param("~test_dataset")
+        #weights_path = rospy.get_param("~weights_path")
+        self.cfg.DATASETS.TRAIN = (train_dataset,) if train_dataset else self.cfg.DATASETS.TRAIN
+        self.cfg.DATASETS.TEST = (test_dataset,) if test_dataset else self.cfg.DATASETS.TEST
+        self.cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = rospy.get_param(
+            '~detection_threshold')  # set threshold for this model
+        self.cfg.MODEL.WEIGHTS = self.load_param('~weights_path')
+        self._class_names = MetadataCatalog.get(self.cfg.DATASETS.TRAIN[0]).get("thing_classes", None)
+        self.cfg.MODEL.ROI_HEADS.NUM_CLASSES = len(self._class_names)
+        self.predictor = DefaultPredictor(self.cfg)
+        self._visualization = rospy.get_param('~visualization', True)
+        self._result_pub = rospy.Publisher('~result', Result, queue_size=1)
+        self._sub = rospy.Subscriber(rospy.get_param('~input'), Image, self._image_callback, queue_size=1)
+        
+        if self._visualization:
+            self._vis_pub = rospy.Publisher('~visualization', Image, queue_size=1)
+
+    def run(self):
+
+        rate = rospy.Rate(self._publish_rate)
+        while not rospy.is_shutdown():
+            if self._msg_lock.acquire(False):
+                img_msg = self._last_msg
+                self._last_msg = None
+                self._msg_lock.release()
+            else:
+                rate.sleep()
+                continue
+
+            if img_msg is not None:
+                np_image = self.convert_to_cv_image(img_msg)
+
+                outputs = self.predictor(np_image)
+                result = outputs["instances"].to("cpu")
+                result_msg = self.getResult(result)
+
+                self._result_pub.publish(result_msg)
+
+                # Visualize results
+                if self._visualization:
+                    v = Visualizer(np_image[:, :, ::-1], MetadataCatalog.get(self.cfg.DATASETS.TRAIN[0]), scale=1.2)
+                    v = v.draw_instance_predictions(outputs["instances"].to("cpu"))
+                    img = v.get_image()[:, :, ::-1]  # Ensure correct color channel ordering
+
+                    image_msg = self._bridge.cv2_to_imgmsg(img)
+                    self._vis_pub.publish(image_msg)
+
+
+            rate.sleep()
+
+    def getResult(self, predictions):
+
+        boxes = predictions.pred_boxes if predictions.has("pred_boxes") else None
+
+        if predictions.has("pred_masks"):
+            masks = np.asarray(predictions.pred_masks)
+        else:
+            return
+
+        result_msg = Result()
+        result_msg.header = self._header
+        result_msg.class_ids = predictions.pred_classes if predictions.has("pred_classes") else None
+        #rospy.logwarn(result_msg.class_ids)
+        result_msg.class_names = np.array(self._class_names)[result_msg.class_ids.numpy()]
+        result_msg.scores = predictions.scores if predictions.has("scores") else None
+
+        for i, (x1, y1, x2, y2) in enumerate(boxes):
+            mask = np.zeros(masks[i].shape, dtype="uint8")
+            mask[masks[i, :, :]]=255
+            mask = self._bridge.cv2_to_imgmsg(mask)
+            result_msg.masks.append(mask)
+
+            box = RegionOfInterest()
+            box.x_offset = np.uint32(x1)
+            box.y_offset = np.uint32(y1)
+            box.height = np.uint32(y2 - y1)
+            box.width = np.uint32(x2 - x1)
+            result_msg.boxes.append(box)
+
+        return result_msg
+
+    def convert_to_cv_image(self, image_msg):
+        if image_msg is None:
+            rospy.logwarn("Received empty image message.")
+            return None
+
+        try:
+            cv_img = self._bridge.imgmsg_to_cv2(image_msg, desired_encoding="bgr8")
+            print("Original Shape:", cv_img.shape)
+        except CvBridgeError as e:
+            rospy.logerr("Error during conversion: %s. Skipping.", str(e))
+            return None
+
+        if cv_img is None:
+            rospy.logerr("cv_img is None after conversion.")
+        else:
+            rospy.logdebug("Image converted successfully.")
+
+        return cv_img
+    def _image_callback(self, msg):
+        rospy.logdebug("Get an image")
+        if self._msg_lock.acquire(False):
+            self._last_msg = msg
+            self._header = msg.header
+            self._msg_lock.release()
+
+    def _register_custom_datasets(self, datasets_dir=None):
+        if datasets_dir is not None:
+            for dirname in os.listdir(datasets_dir):
+                if os.path.isdir(os.path.join(datasets_dir, dirname)):
+                    print(dirname)
+                    metadata = {}
+                    with open(os.path.join(datasets_dir, dirname,  "_annotations.coco.json")) as f:
+                        data = json.load(f)
+                        metadata["thing_classes"] = []
+                        for category in data["categories"]:
+                            metadata["thing_classes"].append(category["name"])
+                    register_coco_instances("{}_train".format(dirname), metadata, os.path.join(datasets_dir, dirname, "_annotations.coco.json"), os.path.join(datasets_dir, dirname, "train"))
+                    register_coco_instances("{}_val".format(dirname), metadata, os.path.join(datasets_dir, dirname, "_annotations.coco.json"), os.path.join(datasets_dir, dirname, "valid"))
+
+    @staticmethod
+    def load_param(param, default=None):
+        new_param = rospy.get_param(param, default)
+        rospy.loginfo("[Detectron2] %s: %s", param, new_param)
+        return new_param
+
+
+def main(argv):
+    rospy.init_node('detectron2_ros')
+    node = Detectron2node()
+    node.run()
+
+if __name__ == '__main__':
+    main(sys.argv)

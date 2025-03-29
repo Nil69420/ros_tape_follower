@@ -1,0 +1,16 @@
+<launch>
+
+
+  <node pkg="detectron2ros" type="detectron2_ros" name="detectron2_ros" output="screen" >
+    <param name="input" value="/zed2/zed_node/rgb_raw/image_raw_color" />
+    <param name="detection_threshold" value="0.50" />
+    <param name="model" value="$(find detectron2ros)/detectron2/configs/COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml" />
+    <param name="visualization" value="true" />
+    <param name="publish_rate" value="100" />
+    <param name="train_dataset" value="train_train" />
+    <param name="test_dataset" value="valid_val" />
+    <param name="weights_path" value="/home/ws/Octo_crawler/src/detectron2_ros/output/model_final.pth" />
+    <param name="custom_datasets_dir" value="/home/ws/Octo_crawler/src/detectron2_ros/weld" />
+  </node>
+  <!--<node pkg="detectron2ros" name="navigation_node"  type="navigation_node" output="screen"/>-->
+</launch>

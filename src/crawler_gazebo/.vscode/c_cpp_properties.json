@@ -1,0 +1,35 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/ws/Octo_crawler/devel/include/**",
+        "/opt/ros/noetic/include/**",
+        "/home/ws/Octo_crawler/src/actuatorcontroller_ros/include/**",
+        "/home/ws/Octo_crawler/src/arduino_client/include/**",
+        "/home/ws/Octo_crawler/src/base_launch/include/**",
+        "/home/ws/Octo_crawler/src/crawler_teleop/include/**",
+        "/home/ws/Octo_crawler/src/darknet_ros/darknet_ros/include/**",
+        "/home/ws/Octo_crawler/src/joy_teleoperation/include/**",
+        "/home/ws/Octo_crawler/src/launch_crawler/include/**",
+        "/home/ws/Octo_crawler/src/octo_adra_ros_wrapper/include/**",
+        "/home/ws/Octo_crawler/src/octo_arduino_msg/include/**",
+        "/home/ws/Octo_crawler/src/octo_arm_sim/include/**",
+        "/home/ws/Octo_crawler/src/octo_arm_teleop/include/**",
+        "/home/ws/Octo_crawler/src/run_cams/include/**",
+        "/home/ws/Octo_crawler/src/ut_gauge_cygnus/include/**",
+        "/home/ws/Octo_crawler/src/watchdog/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}

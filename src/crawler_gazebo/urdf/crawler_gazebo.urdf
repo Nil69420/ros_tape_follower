@@ -1,0 +1,909 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.5.1-0-g916b5db  Build Version: 1.5.7152.31018
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="crawler_gazebo"
+  xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include textfile="$(find crawler_gazebo)/urdf/crawler_gazebo.gazebo" />
+
+    <link
+      name="base_link">
+      <inertial>
+        <origin
+          xyz="-0.166544779785204 -0.0149685354954151 -0.175639363682585"
+          rpy="0 0 0" />
+        <mass
+          value="150.738658762702" />
+        <inertia
+          ixx="1.45050599145453"
+          ixy="0.0257841558527573"
+          ixz="0.0141341146579768"
+          iyy="0.53799497159813"
+          iyz="-0.0167036000868276"
+          izz="1.75207985844135" />
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://crawler_gazebo/meshes/base_link.STL" />
+        </geometry>
+        <material
+          name="">
+          <color
+            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://crawler_gazebo/meshes/base_link.STL" />
+        </geometry>
+      </collision>
+    </link>
+    <link
+      name="link_1">
+      <inertial>
+        <origin
+          xyz="2.5713776339753E-05 -0.112526124429538 7.18011637226429E-05"
+          rpy="0 0 0" />
+        <mass
+          value="140.357056498504" />
+        <inertia
+          ixx="0.156349262310722"
+          ixy="0.000120004558843799"
+          ixz="-0.000132718117351556"
+          iyy="0.269360886360984"
+          iyz="-1.4344844220023E-05"
+          izz="0.155458190090457" />
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://crawler_gazebo/meshes/link_1.STL" />
+        </geometry>
+        <material
+          name="">
+          <color
+            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://crawler_gazebo/meshes/link_1.STL" />
+        </geometry>
+      </collision>
+    </link>
+    <joint
+      name="right_front_wheel"
+      type="continuous">
+      <origin
+        xyz="-0.25584 0.030598 -0.31908"
+        rpy="0 -0.42439 3.1416" />
+      <parent
+        link="base_link" />
+      <child
+        link="link_1" />
+      <axis
+        xyz="0 1 0" />
+      <limit
+        lower="0"
+        upper="6.24"
+        effort="10"
+        velocity="10" />
+    </joint>
+    <link
+      name="link_2">
+      <inertial>
+        <origin
+          xyz="2.57137762453112E-05 -0.112526124428818 7.18011636879901E-05"
+          rpy="0 0 0" />
+        <mass
+          value="140.357056499415" />
+        <inertia
+          ixx="0.15634926231084"
+          ixy="0.000120004558878933"
+          ixz="-0.000132718117466613"
+          iyy="0.269360886361404"
+          iyz="-1.43448442214138E-05"
+          izz="0.155458190090766" />
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://crawler_gazebo/meshes/link_2.STL" />
+        </geometry>
+        <material
+          name="">
+          <color
+            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://crawler_gazebo/meshes/link_2.STL" />
+        </geometry>
+      </collision>
+    </link>
+    <joint
+      name="right_back_wheel"
+      type="continuous">
+      <origin
+        xyz="-0.070756 0.030598 -0.31908"
+        rpy="0 0.21622 3.1416" />
+      <parent
+        link="base_link" />
+      <child
+        link="link_2" />
+      <axis
+        xyz="0 1 0" />
+      <limit
+        lower="0"
+        upper="6.24"
+        effort="10"
+        velocity="10" />
+    </joint>
+    <link
+      name="link_3">
+      <inertial>
+        <origin
+          xyz="2.5713776181796E-05 -0.112526124428283 7.18011637134697E-05"
+          rpy="0 0 0" />
+        <mass
+          value="140.357056500094" />
+        <inertia
+          ixx="0.156349262310969"
+          ixy="0.00012000455890453"
+          ixz="-0.000132718117407678"
+          iyy="0.26936088636172"
+          iyz="-1.43448442265719E-05"
+          izz="0.155458190090957" />
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://crawler_gazebo/meshes/link_3.STL" />
+        </geometry>
+        <material
+          name="">
+          <color
+            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://crawler_gazebo/meshes/link_3.STL" />
+        </geometry>
+      </collision>
+    </link>
+    <joint
+      name="left_front_wheel"
+      type="continuous">
+      <origin
+        xyz="-0.25584 -0.024997 -0.31908"
+        rpy="0 -0.76081 0" />
+      <parent
+        link="base_link" />
+      <child
+        link="link_3" />
+      <axis
+        xyz="0 1 0" />
+      <limit
+        lower="0"
+        upper="6.24"
+        effort="10"
+        velocity="10" />
+    </joint>
+    <link
+      name="link_4">
+      <inertial>
+        <origin
+          xyz="2.57137761885406E-05 -0.112526124428341 7.18011637099447E-05"
+          rpy="0 0 0" />
+        <mass
+          value="140.357056500021" />
+        <inertia
+          ixx="0.156349262310955"
+          ixy="0.000120004558901742"
+          ixz="-0.000132718117415487"
+          iyy="0.269360886361686"
+          iyz="-1.43448442256035E-05"
+          izz="0.155458190090937" />
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://crawler_gazebo/meshes/link_4.STL" />
+        </geometry>
+        <material
+          name="">
+          <color
+            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://crawler_gazebo/meshes/link_4.STL" />
+        </geometry>
+      </collision>
+    </link>
+    <joint
+      name="left_back_wheel"
+      type="continuous">
+      <origin
+        xyz="-0.070756 -0.024997 -0.31908"
+        rpy="0 0.30744 0" />
+      <parent
+        link="base_link" />
+      <child
+        link="link_4" />
+      <axis
+        xyz="0 1 0" />
+      <limit
+        lower="0"
+        upper="6.24"
+        effort="10"
+        velocity="10" />
+    </joint>
+    
+    <gazebo>
+      <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
+        <commandTopic>cmd_vel</commandTopic>
+        <odometryTopic>odom</odometryTopic>
+        <odometryFrame>odom</odometryFrame>
+        <odometryRate>20.0</odometryRate>
+        <robotBaseFrame>base_link</robotBaseFrame>
+      </plugin>
+    </gazebo>
+    
+    <!--<link
+      name="link_5">
+      <inertial>
+        <origin
+          xyz="-0.0200799823614145 -3.20495466103743E-05 0.00567272606006936"
+          rpy="0 0 0" />
+        <mass
+          value="2.59097198613766" />
+        <inertia
+          ixx="0.00163707671968947"
+          ixy="4.05834569748E-06"
+          ixz="-0.000187935606363205"
+          iyy="0.00178436896126707"
+          iyz="3.66965892711528E-06"
+          izz="0.00152277803547436" />
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://crawler_gazebo/meshes/link_5.STL" />
+        </geometry>
+        <material
+          name="">
+          <color
+            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://crawler_gazebo/meshes/link_5.STL" />
+        </geometry>
+      </collision>
+    </link>
+    <joint
+      name="base_joint"
+      type="continuous">
+      <origin
+        xyz="-0.2458 -0.1472 0"
+        rpy="3.1416 0 1.5708" />
+      <parent
+        link="base_link" />
+      <child
+        link="link_5" />
+      <axis
+        xyz="0 0 1" />
+      <limit
+        lower="0"
+        upper="6.24"
+        effort="10"
+        velocity="10" />
+    </joint>
+    <link
+      name="link_6">
+      <inertial>
+        <origin
+          xyz="0.0419734207030258 0.240056643422739 0.103988160889993"
+          rpy="0 0 0" />
+        <mass
+          value="3.11397900589646" />
+        <inertia
+          ixx="0.0105893542585918"
+          ixy="5.6511164525869E-08"
+          ixz="-3.18900925698064E-08"
+          iyy="0.00153774441920444"
+          iyz="-9.98026406358191E-07"
+          izz="0.0112219847238024" />
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://crawler_gazebo/meshes/link_6.STL" />
+        </geometry>
+        <material
+          name="">
+          <color
+            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://crawler_gazebo/meshes/link_6.STL" />
+        </geometry>
+      </collision>
+    </link>
+    <joint
+      name="shoulder_joint"
+      type="continuous">
+      <origin
+        xyz="0 0 0.042239"
+        rpy="-1.5708 1.0482 1.5708" />
+      <parent
+        link="link_5" />
+      <child
+        link="link_6" />
+      <axis
+        xyz="0 0 1" />
+      <limit
+        lower="0"
+        upper="6.24"
+        effort="10"
+        velocity="10" />
+    </joint>
+    <link
+      name="link_7">
+      <inertial>
+        <origin
+          xyz="1.65885532732446E-06 0.16725738983806 0.0588578977856613"
+          rpy="0 0 0" />
+        <mass
+          value="3.01078180932307" />
+        <inertia
+          ixx="0.00717136557548414"
+          ixy="1.01381336321339E-07"
+          ixz="2.0734451611804E-08"
+          iyy="0.00137417115863493"
+          iyz="-1.82688382332719E-05"
+          izz="0.00774289023463593" />
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://crawler_gazebo/meshes/link_7.STL" />
+        </geometry>
+        <material
+          name="">
+          <color
+            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://crawler_gazebo/meshes/link_7.STL" />
+        </geometry>
+      </collision>
+    </link>
+    <joint
+      name="elbow_joint"
+      type="continuous">
+      <origin
+        xyz="0.041975 0.31418 0.10675"
+        rpy="0 0 2.0904" />
+      <parent
+        link="link_6" />
+      <child
+        link="link_7" />
+      <axis
+        xyz="0 0 1" />
+      <limit
+        lower="0"
+        upper="6.24"
+        effort="10"
+        velocity="10" />
+    </joint>
+    <link
+      name="link_8">
+      <inertial>
+        <origin
+          xyz="-0.0858543822698208 -0.0557999112908276 -0.0797732522243653"
+          rpy="0 0 0" />
+        <mass
+          value="4.37068575464211" />
+        <inertia
+          ixx="0.00394924490624352"
+          ixy="0.000633665917948952"
+          ixz="0.000829826200053041"
+          iyy="0.00432436117427707"
+          iyz="-0.000567522159557799"
+          izz="0.00573354495320955" />
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://crawler_gazebo/meshes/link_8.STL" />
+        </geometry>
+        <material
+          name="">
+          <color
+            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://crawler_gazebo/meshes/link_8.STL" />
+        </geometry>
+      </collision>
+    </link>
+    <joint
+      name="tool_joint"
+      type="continuous">
+      <origin
+        xyz="0 0.23 0.030517"
+        rpy="3.1416 0.5236 -1.5675" />
+      <parent
+        link="link_7" />
+      <child
+        link="link_8" />
+      <axis
+        xyz="-0.5 0 -0.86603" />
+      <limit
+        lower="0"
+        upper="6.24"
+        effort="10"
+        velocity="10" />
+    </joint> -->
+    <link
+      name="link_9">
+      <inertial>
+        <origin
+          xyz="-0.00449994286677297 -0.0155887179553093 -3.59350118429858E-05"
+          rpy="0 0 0" />
+        <mass
+          value="0.0480833518283809" />
+        <inertia
+          ixx="2.51444523479028E-05"
+          ixy="-2.25271341933972E-06"
+          ixz="-4.22764211638633E-08"
+          iyy="5.10291199771401E-05"
+          iyz="-1.79894029477722E-08"
+          izz="3.86814940097731E-05" />
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://crawler_gazebo/meshes/link_9.STL" />
+        </geometry>
+        <material
+          name="">
+          <color
+            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://crawler_gazebo/meshes/link_9.STL" />
+        </geometry>
+      </collision>
+    </link>
+    <joint
+      name="gimble_pan"
+      type="continuous">
+      <origin
+        xyz="-0.2641 0.1766 0.037"
+        rpy="-1.5708 0 1.5502" />
+      <parent
+        link="base_link" />
+      <child
+        link="link_9" />
+      <axis
+        xyz="0 1 0" />
+      <limit
+        lower="0"
+        upper="6.24"
+        effort="10"
+        velocity="0.1" />
+    </joint>
+    <link
+      name="link_10">
+      <inertial>
+        <origin
+          xyz="0.00424103377063823 -0.0373425165285303 0.00923924122391706"
+          rpy="0 0 0" />
+        <mass
+          value="0.093381607372632" />
+        <inertia
+          ixx="1.9402204844051E-05"
+          ixy="2.51302602284872E-07"
+          ixz="7.82292028293565E-07"
+          iyy="0.000107793646510494"
+          iyz="1.41515641651246E-06"
+          izz="0.000116316361496263" />
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://crawler_gazebo/meshes/link_10.STL" />
+        </geometry>
+        <material
+          name="">
+          <color
+            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://crawler_gazebo/meshes/link_10.STL" />
+        </geometry>
+      </collision>
+    </link>
+    <joint
+      name="gimble_tilt"
+      type="continuous">
+      <origin
+        xyz="0 -0.026 0.011"
+        rpy="0.390908342537332 0 0" />
+      <parent
+        link="link_9" />
+      <child
+        link="link_10" />
+      <axis
+        xyz="-1 0 0" />
+      <limit
+        lower="0"
+        upper="3.14"
+        effort="10"
+        velocity="0.1" />
+    </joint>
+    <link
+      name="link_11">
+      <inertial>
+        <origin
+          xyz="-0.000134603453894468 -1.7938121510408E-07 0.0343909321363421"
+          rpy="0 0 0" />
+        <mass
+          value="1.19369572408989" />
+        <inertia
+          ixx="0.000884183147895108"
+          ixy="3.10028354636587E-10"
+          ixz="-3.55354539341675E-06"
+          iyy="0.000881765350794011"
+          iyz="-6.28658511410729E-09"
+          izz="0.000901676662611668" />
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://crawler_gazebo/meshes/link_11.STL" />
+        </geometry>
+        <material
+          name="">
+          <color
+            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://crawler_gazebo/meshes/link_11.STL" />
+        </geometry>
+      </collision>
+    </link>
+    <joint
+      name="lidar"
+      type="fixed">
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <parent
+        link="base_link" />
+      <child
+        link="link_11" />
+      <axis
+        xyz="0 0 0" />
+    </joint>
+    <link
+      name="link_12">
+      <inertial>
+        <origin
+          xyz="-0.0245357350446695 0 -4.76362472955072E-05"
+          rpy="0 0 0" />
+        <mass
+          value="0.0334900440310418" />
+        <inertia
+          ixx="7.29916982861382E-06"
+          ixy="2.30136210703002E-22"
+          ixz="-2.33600048224526E-09"
+          iyy="5.76932274057022E-06"
+          iyz="2.58286992984894E-21"
+          izz="5.79537414459012E-06" />
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://crawler_gazebo/meshes/link_12.STL" />
+        </geometry>
+        <material
+          name="">
+          <color
+            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://crawler_gazebo/meshes/link_12.STL" />
+        </geometry>
+      </collision>
+    </link>
+    <joint
+      name="front_camera"
+      type="fixed">
+      <origin
+        xyz="-0.2838 0.0028 -0.25555"
+        rpy="0 0 3.1416" />
+      <parent
+        link="base_link" />
+      <child
+        link="link_12" />
+      <axis
+        xyz="0 0 0" />
+    </joint>
+    
+    <joint name="camera_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="camera_link"/>
+      <origin xyz="0.0828000000001037 0.00280000000000036 0.135549999999998" rpy="0 0.85 0"/>      
+    </joint>
+
+    <link name="camera_link">
+      <visual>
+        <geometry>
+          <mesh filename="package://crawler_gazebo/meshes/link_12.STL" />
+        </geometry>
+        <material name="red"/>
+      </visual>
+    </link>
+
+    <joint
+      name="camera_optical_joint"
+      type="fixed">
+      <parent
+        link="camera_link" />
+      <child 
+        link="camera_link_optical"/>
+      <origin 
+        xyz="-0.0428000000001037 0.00280000000000036 -0.255549999999998"
+        rpy="-1.57079632679 0 -1.57079632679" />
+    </joint>
+
+    <gazebo reference="camera_link">
+      <sensor name="camera" type="camera">
+          <update_rate>30.0</update_rate>
+          <visualize>true</visualize>
+          <camera name="head">
+              <horizontal_fov>0.962634</horizontal_fov>
+              <image>
+                  <width>800</width>
+                  <height>800</height>
+                  <format>R8G8B8</format>
+              </image>
+              <clip>
+                  <near>0.02</near>
+                  <far>8.0</far>
+              </clip>
+              <noise>
+                  <type>gaussian</type>
+                  <mean>0.0</mean>
+                  <stddev>0.007</stddev>
+              </noise>
+          </camera>
+          <plugin name="crawler_camera_controller" filename="libgazebo_ros_camera.so">
+              <alwaysOn>true</alwaysOn>
+              <updateRate>0.0</updateRate>
+              <cameraName>camera1</cameraName>
+              <imageTopicName>image_raw</imageTopicName>
+              <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+              <frameName>camera_link_optical</frameName>
+              <hackBaseline>0.07</hackBaseline>
+              <distortionK1>0.0</distortionK1>
+              <distortionK2>0.0</distortionK2>
+              <distortionK3>0.0</distortionK3>
+              <distortionT1>0.0</distortionT1>
+              <distortionT2>0.0</distortionT2>
+
+          </plugin>
+      </sensor>
+    </gazebo>
+
+    <link 
+      name="camera_link_optical">
+    </link>
+    <link
+      name="link_13">
+      <inertial>
+        <origin
+          xyz="-0.0245357350446695 0 -4.76362472955072E-05"
+          rpy="0 0 0" />
+        <mass
+          value="0.0334900440310418" />
+        <inertia
+          ixx="7.29916982861381E-06"
+          ixy="1.50882882609237E-21"
+          ixz="-2.33600048224489E-09"
+          iyy="5.76932274057022E-06"
+          iyz="9.11303531296866E-22"
+          izz="5.79537414459011E-06" />
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://crawler_gazebo/meshes/link_13.STL" />
+        </geometry>
+        <material
+          name="">
+          <color
+            rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://crawler_gazebo/meshes/link_13.STL" />
+        </geometry>
+      </collision>
+    </link>
+    <joint
+      name="back_camera"
+      type="fixed">
+      <origin
+        xyz="-0.0428000000001037 0.00280000000000036 -0.255549999999998"
+        rpy="0 0 0" />
+      <parent
+        link="base_link" />
+      <child
+        link="link_13" />
+      <axis
+        xyz="0 0 0" />
+    </joint>
+
+    <joint name="imu_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="imu_link"/>
+      <origin xyz="-0.1225 0.1225 -0.2" rpy="0 0 0"/>
+    </joint>
+
+    <link name="imu_link">
+      <visual>
+        <geometry>
+          <box size="0.010 0.03 0.03"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+    </link>
+
+    <gazebo reference="imu_link">
+      <gravity>true</gravity>
+      <sensor name="imu_sensor" type="imu">
+        <always_on>true</always_on>
+        <update_rate>100</update_rate>
+        <visualize>true</visualize>
+        <topic>imu</topic>
+        <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+          <topicName>imu</topicName>
+          <bodyName>imu_link</bodyName>
+          <updateRateHZ>10.0</updateRateHZ>
+          <gaussianNoise>2e-3</gaussianNoise>
+          <xyzOffset>0 0 0</xyzOffset>
+          <rpyOffset>0 0 0</rpyOffset>
+          <frameName>imu_link</frameName>
+          <initialOrientationAsReference>false</initialOrientationAsReference>
+        </plugin>
+        <pose>0 0 0 0 0 0</pose>
+      </sensor>
+    </gazebo>   
+
+
+</robot>
