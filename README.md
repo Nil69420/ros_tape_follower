@@ -2,7 +2,7 @@
 
 A ROS Node for detecting objects using [Detectron2](https://github.com/facebookresearch/detectron2).
 
-![Simulation](crawler_gazebo.gif)
+![Gazebo Sim](misc/output.gif)
 
 
 ## Installation
