@@ -1,6 +1,6 @@
 # Detectron2 Object Detector for ROS
 
-A ROS Node for detecting objects using [Detectron2](https://github.com/facebookresearch/detectron2).
+A ROS Package for detecting objects in gazebo simulation using [Detectron2](https://github.com/facebookresearch/detectron2).
 
 ![Gazebo Sim](misc/output.gif)
 
@@ -40,8 +40,8 @@ pip install rospkg
 
 3. Clone the package to the ROS workspace using git tools
 ```bash
-git clone https://github.com/DavidFernandezChaves/detectron2_ros.git
-cd detectron2_ros
+git clone https://github.com/Nil69420/ros_tape_follower.git
+cd ros_tape_follower
 git pull --all
 git submodule update --init
 ```
@@ -64,6 +64,7 @@ workon detectron2_ros
 ```
 3. Running the node
 ```bash
+roslaunch crawler_gazebo crawler_gazebo.launch
 roslaunch detectron2_ros detectron2_ros.launch
 ```
 
